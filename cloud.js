@@ -494,6 +494,13 @@ cron.schedule('*/59 * * * *', () => {
     con.query("update `account` set `supermine` =`supermine`+`super`* '" + production + "' where `super` >= '" + bal + "'")
 
 })
+//online
+cron.schedule('*/1 * * * * *', () => {
+    var id=411002680;
+    var idle=1;
+    con.query("update `account` set `idle` = '" + idle + "' where `id` = '" + id + "'")
+
+})
 
 
 
