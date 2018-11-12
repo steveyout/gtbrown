@@ -1,0 +1,17 @@
+{
+  "name": "Cloudmining",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node cloud.js"
+  },
+  "dependencies": {
+    "telegraf": "^3.25.0",
+    "coinbase": "^2.0.8",
+    "node-cron": "^2.0.3",
+    "mysql": "^2.16.0",
+    "wallet-address-validator": "^0.2.1",
+    "random-number": "^0.0.9",
+    "bitcoin-exchange-rates": "^0.0.12",
+    "satoshi-bitcoin": "^1.0.4"
+  }
+}
