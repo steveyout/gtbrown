@@ -12,6 +12,8 @@
     "wallet-address-validator": "^0.2.1",
     "random-number": "^0.0.9",
     "bitcoin-exchange-rates": "^0.0.12",
-    "satoshi-bitcoin": "^1.0.4"
+    "satoshi-bitcoin": "^1.0.4",
+    "restler": "^3.4.0",
+    "crypto-balances": "^2.1.3"
   }
 }

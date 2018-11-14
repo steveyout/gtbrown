@@ -6,6 +6,8 @@ const Scene = require('telegraf/scenes/base')
 const session = require('telegraf/session')
 const Stage = require('telegraf/stage')
 const { enter,leave } = Stage
+var rest = require('restler');
+var btc='d63b2e5d-4e54-5990-943f-ef5788433df1'
 var rates = require("bitcoin-exchange-rates");
 var cron = require('node-cron');
 var mysql = require('mysql');
@@ -73,7 +75,8 @@ bot.command('start',ctx => {
                     ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
                     ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
                     ['🎪Marketplace', '📈Stastistics'],
-                    ['⚙️Settings','🎁Bonus']// Row3 with 3 buttons Row3 with 3 buttons
+                    ['⚙️Settings','🎁Bonus'],
+                    ['💬Chat']// Row3 with 3 buttons Row3 with 3 buttons
                 ])
 
                 .resize()
@@ -85,7 +88,8 @@ bot.command('start',ctx => {
                 ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
                 ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
                 ['🎪Marketplace', '📈Stastistics'],
-                ['⚙️Settings','🎁Bonus']// // Row3 with 3 buttons Row3 with 3 buttons
+                ['⚙️Settings','🎁Bonus'],
+                ['💬Chat']// Row3 with 3 but// // Row3 with 3 buttons Row3 with 3 buttons
             ])
 
             .resize()
@@ -130,7 +134,8 @@ bot.command('start',ctx => {
                                 ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
                                 ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
                                 ['🎪Marketplace', '📈Stastistics'],
-                                ['⚙️Settings','🎁Bonus']// Row3 with 3 buttons Row3 with 3 buttons
+                                ['⚙️Settings','🎁Bonus'],
+                                ['💬Chat']// Row3 with 3 but// Row3 with 3 buttons Row3 with 3 buttons
                             ])
 
                             .resize()
@@ -152,7 +157,20 @@ bot.command('start',ctx => {
                                 ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
                                 ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
                                 ['🎪Marketplace', '📈Stastistics'],
-                                ['⚙️Settings','🎁Bonus']/// Row3 with 3 buttons Row3 with 3 buttons
+                                ['⚙️Settings','🎁Bonus'],
+                                ['💬Chat']// Row3 with 3 but/// Row3 with 3 buttons Row3 with 3 buttons
+                            ])
+
+                            .resize()
+                            .extra())
+                    }else if (result[0].ref !== ctx.message.text.split(start)[1]){
+                        ctx.reply('???', Markup
+                            .keyboard([
+                                ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
+                                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                                ['🎪Marketplace', '📈Stastistics'],
+                                ['⚙️Settings','🎁Bonus'],
+                                ['💬Chat']// Row3 with 3 but/// Row3 with 3 buttons Row3 with 3 buttons
                             ])
 
                             .resize()
@@ -248,6 +266,168 @@ bot.action('Buy Hens🐔',ctx=> {
         })
     }
 })
+//buy hens
+
+//chick
+bot.action('➕Buy chick',ctx =>{
+var user=ctx.from.id
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].balance>=499){
+            var amount=499;
+            var chick=1;
+            var sqli = "update `account` set `balance` = `balance`-" + amount + ", `chick` = `chick`+'" + chick + "' where `id` = '" + user + "'";
+con.query(sqli,function (err,result) {
+    ctx.replyWithHTML('<b>💫Success</b>\n\n<b>chick</b> has been purchased,now you need to go to the farm and collect eggs produced by the hen.You can buy as many different or identical hens as you like!')
+
+})
+
+
+        }else {
+            ctx.answerCbQuery(`you dont have enough funds to ${ctx.match}`)
+        }
+    })
+
+
+
+})
+
+//brown
+bot.action('➕Buy brown',ctx =>{
+    var user=ctx.from.id
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].balance>=5000){
+            var amount=5000;
+            var chick=1;
+            var sqli = "update `account` set `balance` = `balance`-" + amount + ", `brown` = `brown`+'" + chick + "' where `id` = '" + user + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>💫Success</b>\n\n<b>brown</b> has been purchased,now you need to go to the farm and collect eggs produced by the hen.You can buy as many different or identical hens as you like!')
+
+            })
+
+
+        }else {
+            ctx.answerCbQuery(`you dont have enough funds to ${ctx.match}`)
+        }
+    })
+
+
+
+})
+//yellow
+bot.action('➕Buy yellow',ctx =>{
+    var user=ctx.from.id
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].balance>=29000){
+            var amount=29000;
+            var chick=1;
+            var sqli = "update `account` set `balance` = `balance`-" + amount + ", `yellow` = `yellow`+'" + chick + "' where `id` = '" + user + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>💫Success</b>\n\n<b>yellow</b> has been purchased,now you need to go to the farm and collect eggs produced by the hen.You can buy as many different or identical hens as you like!')
+
+            })
+
+
+        }else {
+            ctx.answerCbQuery(`you dont have enough funds to ${ctx.match}`)
+        }
+    })
+
+
+
+})
+//cocky
+bot.action('➕Buy cocky',ctx =>{
+    var user=ctx.from.id
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].balance>=100000){
+            var amount=100000;
+            var chick=1;
+            var sqli = "update `account` set `balance` = `balance`-" + amount + ", `cocky` = `cocky`+'" + chick + "' where `id` = '" + user + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>💫Success</b>\n\n<b>cocky</b> has been purchased,now you need to go to the farm and collect eggs produced by the hen.You can buy as many different or identical hens as you like!')
+
+            })
+
+
+        }else {
+            ctx.answerCbQuery(`you dont have enough funds to ${ctx.match}`)
+        }
+    })
+
+
+
+})
+//whity
+bot.action('➕Buy whity',ctx =>{
+    var user=ctx.from.id
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].balance>=250000){
+            var amount=250000;
+            var chick=1;
+            var sqli = "update `account` set `balance` = `balance`-" + amount + ", `whity` = `whity`+'" + chick + "' where `id` = '" + user + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>💫Success</b>\n\n<b>whity</b> has been purchased,now you need to go to the farm and collect eggs produced by the hen.You can buy as many different or identical hens as you like!')
+
+            })
+
+
+        }else {
+            ctx.answerCbQuery(`you dont have enough funds to ${ctx.match}`)
+        }
+    })
+
+
+
+})
+//super
+bot.action('➕Buy super',ctx =>{
+    var user=ctx.from.id
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].balance>=500000){
+            var amount=500000;
+            var chick=1;
+            var sqli = "update `account` set `balance` = `balance`-" + amount + ", `super` = `super`+'" + chick + "' where `id` = '" + user + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>💫Success</b>\n\n<b>super</b> has been purchased,now you need to go to the farm and collect eggs produced by the hen.You can buy as many different or identical hens as you like!')
+
+            })
+
+
+        }else {
+            ctx.answerCbQuery(`you dont have enough funds to ${ctx.match}`)
+        }
+    })
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //mainmenu
 bot.hears('🏠Menu',ctx => {
     ctx.reply('Main menu', Markup
@@ -255,7 +435,8 @@ bot.hears('🏠Menu',ctx => {
             ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
             ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
             ['🎪Marketplace', '📈Stastistics'],
-            ['⚙️Settings','🎁Bonus']// // Row3 with 3 buttons Row3 with 3 buttons
+            ['⚙️Settings','🎁Bonus'],
+            ['💬Chat']// Row3 with 3 but// // Row3 with 3 buttons Row3 with 3 buttons
         ])
 
         .resize()
@@ -299,16 +480,102 @@ bot.hears('💵Balance',ctx => {
 
         currency = 'USD';
         rates.fromBTC(btcAmount, currency, function (err, rate) {
-            ctx.replyWithHTML('<b>user: </b>' + results[0].firstname + '\n<b>Purchase balance: </b>' + results[0].balance + ' 💰\n<b>Withdraw balance: </b>' + results[0].payout + ' 💰(' + btcAmount + ' BTC)' + '<i>\n📊 ' + btcAmount + ' BTC =$ ' + rate + '</i>\n\n<b>Eggs in store:</b> ' + results[0].eggs + '🥚\n\n<b>Account creation:</b> ' + results[0].time,Extra
+            ctx.replyWithHTML('<b>user: </b>' + results[0].firstname + '\n<b>Purchase balance: </b>' + results[0].balance + ' 💰\n<b>Withdraw balance: </b>' + results[0].payout + ' 💰(' + btcAmount + ' BTC)' + '<i>\n📊 ' + btcAmount + ' BTC =$ ' + rate + '</i>\n\n<b>Eggs in store:</b> ' + results[0].eggs + '🥚\n\n<b>Account creation:</b> ' + results[0].time, Extra
                 .HTML()
                 .markup((m) => m.inlineKeyboard([
                     m.callbackButton('💳Add BTC', '💳Add BTC'),
                     m.callbackButton('🔰Withdraw', '🔰Withdraw')
-                ], { columns: 1 })))
+                ], {columns: 1})))
 
         })
     })
+
+//transactions
+    var user = ctx.from.id
+    var sql = "SELECT depoaddre,txid,ref,id from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, res, fields) {
+        if (res[0].depoaddre.length > 0) {
+            client.getAccount(btc, function (err, account) {
+                account.getAddress(res[0].depoaddre, function (err, address) {
+                    address.getTransactions({}, function (err, txs) {
+                        if (txs.length === 0) {
+                            console.log('no transactions today')
+                        } else if (txs[0].id == res[0].txid) {
+                            console.log('transaction already confirmed')
+                        } else if (txs[0].id !== res[0].txid) {
+                            var txid = txs[0].id
+                            var balance = Math.round(txs[0].amount.amount * 1000000)
+                            var transactions = txs[0].amount.amount
+                            var chatid = ctx.from.id
+                            var sqli = "update `account` SET `txid` = '" + txid + "', balance = `balance`+" + balance + ", transactions = `transactions`+" + transactions + " where `id` = '" + chatid + "'";
+                            con.query(sqli, function (err, response) {
+                                var ref = res[0].ref
+                                var refbonus = Math.round(balance * 0.25)
+                                var sqla = "update `account` set `payout` = `payout`+" + refbonus + " where `id` = '" + ref + "'";
+                                con.query(sqla)
+                                ctx.telegram.sendMessage(res[0].id, 'we have received your deposit of ' + transactions + ' you gain ' + balance + '💰 added to your balance')
+                                ctx.telegram.sendMessage(ref, 'you refferal just deposited. ' + refbonus + '💰 has been added to your payout balance')
+                                ctx.telegram.sendMessage('@bithentransactions', 'new deposit of ' + transactions + ' BTC by ' + ctx.from.first_name + '\n\nhttps://live.blockcypher.com/btc/address/' + res[0].depoaddre)
+                            })
+                        }
+                    })
+                })
+            })
+        }
+    })
 })
+
+
+
+
+
+
+//add btc
+bot.action('💳Add BTC',ctx=>{
+    var user=ctx.from.id
+    var sql = "SELECT `depoaddre` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].depoaddre.length <= 0) {
+            client.getAccount(btc, function (err, account) {
+                account.createAddress(null, function (err, address) {
+                    var adress = address.address
+                    ctx.replyWithHTML('<b>⚡Top up balance</b>\n\nYou can buy game currency for purchasing hens and (💰) using BitCoin. To top up your balance, simply send<b>any amount</b> of BTC to this address\n\n<code>' + adress + '</code>\n\nThe BTC will be automatically credited to the balance at the rate of\n' + '<b>0.1 BTC = 100,000 💰</b>\n' + '<b>0.01 BTC = 10,000 💰</b>\n' + '<b>0.001 BTC = 1,000 💰</b>\n' + '<b>0.0001 BTC = 100 💰 </b>etc.')
+var ide =ctx.from.id
+                    var sqli = "update `account` set `depoaddre` = '" + adress + "' where `id` = '" + ide + "'";
+                            con.query(sqli, function (err, results) {
+                                console.log(err)
+                                ctx.replyWithHTML('<code>' + adress + '</code>')
+                        })
+                });
+            });
+
+        } else {
+            var user = ctx.from.id
+            var sqla = "SELECT `depoaddre` from `account` where `id` = '" + user + "'";
+            con.query(sqla, function (error, results, fields) {
+                ctx.replyWithHTML('<b>⚡Top up balance</b>\n\nYou can buy game currency for purchasing hens and (💰) using BitCoin. To top up your balance, simply send<b>any amount</b> of BTC to this address\n\n<code>' + results[0].depoaddre + '</code>\n\nThe BTC will be automatically credited to the balance at the rate of\n' + '<b>0.1 BTC = 100,000 💰</b>\n' + '<b>0.01 BTC = 10,000 💰</b>\n' + '<b>0.001 BTC = 1,000 💰</b>\n' + '<b>0.0001 BTC = 100 💰 etc.</b>')
+                    .then(() => {
+                        ctx.replyWithHTML('<code>' + results[0].depoaddre + '</code>')
+
+                    })
+            })
+        }
+    })
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 //refferals
 bot.hears('👨‍👧‍👦Refferals',ctx => {
@@ -380,6 +647,39 @@ bot.hears('🥚Farm',ctx => {
     })
     })
 })
+//myhens
+
+bot.action('My Hens🐔',ctx => {
+    var ide = ctx.from.id
+    var sql = "SELECT SUM(chickmine+brownmine+yellowmine+cockymine+whitymine+supermine)  from `account` where `id` = '" + ide + "'";
+    con.query(sql, function (error, response, fields) {
+        var sm=JSON.parse(JSON.stringify(response[0]).replace('SUM(chickmine+brownmine+yellowmine+cockymine+whitymine+supermine)', 'suma'))
+        var ide = ctx.from.id
+        var sql = "SELECT chick,brown,yellow,cocky,whity,super,chickmine,brownmine,yellowmine,cockymine,whitymine,supermine from `account` where `id` = '" + ide + "'";
+        con.query(sql, function (error, results, fields) {
+
+            ctx.replyWithHTML('<b>🥚Farm</b>\n\n<i>The hens you have purchased reside here.They produce 🥚 on the farm,which you need to collect and sell in the marketplace.\nBelow you can see the eggs that your hens have produced and collect them for sale</i>' + '\n\n🐔<b>chick</b>\n🔸Number: ' + results[0].chick + '\n🔸Produced: ' + results[0].chickmine + '🥚' + '\n\n🐔<b>brown</b>\n🔸Number: ' + results[0].brown + '\n🔸Produced: ' + results[0].brownmine + '🥚' + '\n\n🐔<b>yellow</b>\n🔸Number: ' + results[0].yellow + '\n🔸Produced: ' + results[0].yellowmine + '🥚' + '\n\n🐔<b>cocky</b>\n🔸Number: ' + results[0].cocky + '\n🔸Produced: ' + results[0].cockymine + '🥚' + '\n\n🐔<b>whity</b>\n🔸Number: ' + results[0].whity + '\n🔸Produced: ' + results[0].whitymine + '🥚' + '\n\n🐔<b>super</b>\n🔸Number: ' + results[0].super + '\n🔸Produced: ' + results[0].supermine + '🥚' + '\n\n<b>Total:</b> '+sm.suma+' 🥚',Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('🥚Collect eggs', '🥚Collect eggs')
+                ], { columns: 1 }))).then(()=> {
+                ctx.reply('click 🏠Menu to go back to main menu', Markup
+                    .keyboard([
+                        ['🏠Menu'], // Row1 with 2 buttons
+                    ])
+
+                    .resize()
+                    .extra())
+
+            })
+        })
+    })
+})
+
+
+
+
+
 
 //market
 bot.hears('🎪Marketplace',ctx => {
@@ -450,6 +750,70 @@ bot.action('sell🥚 and get 💰',ctx=>{
         }
     })
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //cronjobs
 //chick
 cron.schedule('*/59 * * * *', () => {
@@ -501,6 +865,223 @@ cron.schedule('*/1 * * * * *', () => {
     con.query("update `account` set `idle` = '" + idle + "' where `id` = '" + id + "'")
 
 })
+//days on
+cron.schedule('0 0 0 * * *', () => {
+    con.query('update account set `started`=`started`+1 WHERE `id`=411002680')
+
+})
+
+
+
+//stastistics
+bot.hears('📈Stastistics',ctx => {
+    con.query('SELECT `id` FROM `account`', function (error, result) {
+        con.query('SELECT SUM(transactions)FROM account;', function (err, response) {
+            const re = JSON.parse(JSON.stringify(response[0]).replace('SUM(transactions)', 'suma'))
+            con.query('SELECT `started` FROM `account` WHERE `id`=411002680', function (err, respa) {
+                ctx.replyWithHTML('<b>📈Stastistics</b>\n\n📈Days online: ' + respa[0].started + '\n👨🏻‍️Members: ' + result.length + '\n💰Total transacted: ' + re.suma + ' BTC' + '\n\nLive payment channel:@bithentransactions')
+            })
+        })
+    })
+})
+//settings
+bot.hears('⚙️Settings',ctx => {
+    var user=ctx.from.id
+    var sql = "SELECT `withdrawadd` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        ctx.replyWithHTML('<b>settings</b>\n\nHere you can change your withdraw address\n\ncurren withdraw address: <b>' + results[0].withdrawadd + '</b>\n\n<i>Withdraw address need to be set when requesting payouts</i>', Markup
+            .keyboard([
+                ['🔑set withdraw address'],
+                ['🏠Menu'] // Row1 with 2 buttons
+            ])
+
+            .resize()
+            .extra())
+    })
+
+})
+//set address
+const greeterScene = new Scene('greeter')
+greeterScene.enter((ctx) => ctx.reply('send your BTC wallet address to be used for withdrwals below to update it'))
+greeterScene.leave((ctx) => ctx.reply('Bye'))
+greeterScene.on('message', (ctx) => {
+    var valid = WAValidator.validate(ctx.message.text, 'BTC');
+    if (valid) {
+        var ide = ctx.from.id
+        var sqli = "update `account` set `withdrawadd` = '" + ctx.message.text + "' where `id` = '" + ide + "'";
+        con.query(sqli)
+        ctx.replyWithHTML('<b>withdraw address updated</b>', Markup
+            .keyboard([
+                ['🐔Hens', '🥚Farm'], // Row1 with 2 buttons
+                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                ['🎪Marketplace', '📈Stastistics'],
+                ['⚙️Settings', '🎁Bonus'],
+                ['💬Chat']// Row3 with 3 but// // Row3 with 3 buttons Row3 with 3 buttons
+            ])
+
+            .resize()
+            .extra())
+
+
+    } else {
+        ctx.reply('invalid BTC address', Markup
+            .keyboard([
+                ['🐔Hens', '🥚Farm'], // Row1 with 2 buttons
+                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                ['🎪Marketplace', '📈Stastistics'],
+                ['⚙️Settings', '🎁Bonus'],
+                ['💬Chat']// Row3 with 3 but// // Row3 with 3 buttons Row3 with 3 buttons
+            ])
+
+            .resize()
+            .extra())
+
+
+    }
+})
+//withdraw
+const withdrawscene = new Scene('withdraw')
+withdrawscene.enter((ctx) =>{
+    var id = ctx.from.id
+    var sql = "SELECT payout,withdrawadd from `account` where `id` = '" + id + "'";
+    con.query(sql, function (error, results, fields) {
+if (results[0].withdrawadd=="none"){
+    ctx.replyWithHTML('<b>withdraw address not set</b>\n\n<i>you can set your withdraw address in ⚙️Settings</i>')
+}else if (results[0].payout<2000){
+    ctx.replyWithHTML('<b>your payout balance is less than the minimum required for withdrawal.</b>\n\n<i>The minimum required for withdrawal is 2000💰 and you have</i> <b>'+results[0].payout+'</b>💰')
+}else {
+    ctx.replyWithHTML('<b>🏵Withdraw funds</b>\n\nyour withdraw wallet: <b>'+results[0].withdrawadd+'</b>\n\nThe withdrawal of funds is made from the balance designated for payments at the rate of 0.001 BTC = 1,000 💰\n<b>Your balance '+results[0].payout+'💰</b>')
+        .then(()=>{
+            ctx.replyWithHTML('<i>Enter the number of 💰 you would like to withdraw to your BitCoin Wallet (a minimum of 2000)</i>',Markup
+                .keyboard([
+                    ['🏠Menu'], // Row1 with 2 buttons
+                ])
+
+                .resize()
+                .extra())
+
+        })
+
+
+
+}
+    })
+
+})
+withdrawscene.leave((ctx) => ctx.reply('Bye'))
+withdrawscene.on('message',ctx=>{
+    if (isNaN(ctx.message.text)){
+        ctx.reply('That is not a valid amount',Markup
+            .keyboard([
+                ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
+                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                ['🎪Marketplace', '📈Stastistics'],
+                ['⚙️Settings','🎁Bonus'],
+                ['💬Chat']// Row3 with 3 buttons Row3 with 3 buttons
+            ])
+
+            .resize()
+            .extra())
+    }else if (ctx.message.text<2000){
+        ctx.replyWithHTML('<i>This amount is less than the minimum required</i>',Markup
+            .keyboard([
+                ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
+                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                ['🎪Marketplace', '📈Stastistics'],
+                ['⚙️Settings','🎁Bonus'],
+                ['💬Chat']// Row3 with 3 buttons Row3 with 3 buttons
+            ])
+
+            .resize()
+            .extra())
+
+
+    }
+
+
+
+    else {
+        var id = ctx.from.id
+        var sql = "SELECT payout,withdrawadd from `account` where `id` = '" + id + "'";
+        con.query(sql, function (error, results, fields) {
+            var payout=ctx.message.text/1000000
+            var addre=results[0].withdrawadd
+            client.getAccount(btc, function(err, account) {
+                account.sendMoney({'to':addre,
+                    'amount':payout,
+                    'currency': 'BTC'}, function(err, tx) {
+                    ctx.telegram.sendMessage('@bithentransactions','New withdrawal of '+payout+' BTC by '+ctx.from.first_name+'\n\nhttps://live.blockcypher.com/btc/address/'+results[0].withdrawadd)
+var user=ctx.from.id
+                    var amount=ctx.message.text
+                    var sqla = "update `account` set `payout` = `payout`-" + amount + " where `id` = '" + user + "'";
+                    con.query(sqla)
+
+                    ctx.replyWithHTML('Your withdrawal of '+payout+' BTC is being processed',Markup
+                        .keyboard([
+                            ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
+                            ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                            ['🎪Marketplace', '📈Stastistics'],
+                            ['⚙️Settings','🎁Bonus'],
+                            ['💬Chat']// Row3 with 3 buttons Row3 with 3 buttons
+                        ])
+
+                        .resize()
+                        .extra())
+                });
+            });
+
+
+
+        })
+
+
+    }
+
+
+
+
+})
+//admin
+const adminscene = new Scene('admin')
+adminscene.enter((ctx) =>{
+  ctx.reply('sms all')
+})
+adminscene.on('message',ctx => {
+    con.query('SELECT `id` from `account`',function (err,results) {
+        results.forEach(function (res) {
+            if (ctx.from.id==411002680) {
+                var id = res.id
+                ctx.telegram.sendMessage(id, ctx.message.text)
+            }else {
+                ctx.reply('you are not an admin')
+            }
+        })
+    })
+        })
+
+
+
+
+
+
+
+
+//chat
+bot.hears('💬Chat',ctx => {
+    ctx.replyWithHTML('<b>Help group:</b> @bithenchat\n\n<b>payouts channel: </b> @bithentransactions')
+
+})
+
+
+
+
+const stage = new Stage([greeterScene,withdrawscene,adminscene], { ttl: 10 })
+bot.use(session())
+bot.use(stage.middleware())
+bot.hears('🔑set withdraw address', enter('greeter'))
+bot.action('🔰Withdraw',enter('withdraw'))
+bot.hears('Admin',enter('admin'))
+
 
 
 
