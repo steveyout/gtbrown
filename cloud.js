@@ -494,7 +494,7 @@ bot.hears('💵Balance',ctx => {
     var user = ctx.from.id
     var sql = "SELECT depoaddre,txid,ref,id from `account` where `id` = '" + user + "'";
     con.query(sql, function (error, res, fields) {
-        if (res[0].depoaddre.length > 0) {
+        if (res[0].depoaddre.length > 1) {
             client.getAccount(btc, function (err, account) {
                 account.getAddress(res[0].depoaddre, function (err, address) {
                     address.getTransactions({}, function (err, txs) {
