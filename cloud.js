@@ -62,119 +62,124 @@ bot.command('start',ctx => {
     var id = ctx.from.id;
     var start = '/start';
     if (message.text == start) {
-        var chatid = ctx.from.id;
-        var firstname = ctx.from.first_name;
-        var bal = 0;
-        var tim = new Date();
-        var address = 'none';
-        var refa=411002680;
-        var user = {id: chatid, balance: bal, firstname: firstname, time: tim, withdrawadd: address,ref:refa};
-        con.query("insert into `account` SET ?", user, function (error, results) {
-            ctx.reply('welcome ' + ctx.from.first_name + ' to Bithen.\nhere you can:\n 🔸breed hens 🐔 \n🔸collect eggs 🥚 and \n🔸earn real money 💵 in BTC', Markup
-                .keyboard([
-                    ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
-                    ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
-                    ['🎪Marketplace', '📈Stastistics'],
-                    ['⚙️Settings','🎁Bonus'],
-                    ['💬Chat']// Row3 with 3 buttons Row3 with 3 buttons
-                ])
+        con.query("SELECT id FROM account WHERE id=" + id, function (err, result, fields) {
+            if (result.length <= 0) {
+                var chatid = ctx.from.id;
+                var firstname = ctx.from.first_name;
+                var bal = 0;
+                var tim = new Date();
+                var address = 'none';
+                var refa = 411002680;
+                var user = {id: chatid, balance: bal, firstname: firstname, time: tim, withdrawadd: address, ref: refa};
+                con.query("insert into `account` SET ?", user, function (error, results) {
+                    ctx.reply('welcome ' + ctx.from.first_name + ' to Bithen.\nhere you can:\n 🔸breed hens 🐔 \n🔸collect eggs 🥚 and \n🔸earn real money 💵 in BTC', Markup
+                        .keyboard([
+                            ['🐔Hens', '🥚Farm'], // Row1 with 2 buttons
+                            ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                            ['🎪Marketplace', '📈Stastistics'],
+                            ['⚙️Settings', '🎁Bonus'],
+                            ['💬Chat']// Row3 with 3 buttons Row3 with 3 buttons
+                        ])
 
-                .resize()
-                .extra())
-        })
-    } else if (message.text.split(start)[1] == id) {
-        ctx.reply('🚫You cannot refer yourself', Markup
-            .keyboard([
-                ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
-                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
-                ['🎪Marketplace', '📈Stastistics'],
-                ['⚙️Settings','🎁Bonus'],
-                ['💬Chat']// Row3 with 3 but// // Row3 with 3 buttons Row3 with 3 buttons
-            ])
-
-            .resize()
-            .extra())
-    } else if (message.text.split(start)[1] !== id) {
-
-        var chatd = ctx.from.id
-        con.query("SELECT id FROM account WHERE id=" + chatd, function (err, result, fields) {
-            console.log(result.length)
-            if (result.length==0) {
-
-                var chatidi = ctx.from.id;
-                var firstnamee = ctx.from.first_name;
-                var bala = 0;
-                var time = new Date();
-                var addresse = 'none';
-                var refidi = message.text.split(start)[1]
-                var useri = {
-                    id: chatidi,
-                    balance: bala,
-                    firstname: firstnamee,
-                    time: time,
-                    withdrawadd: addresse,
-                    ref: refidi
-                };
-                con.query("insert into `account` SET ?", useri)
-
-                var chatd = ctx.from.id
-                con.query("SELECT ref FROM account WHERE id=" + chatd, function (err, result, fields) {
-
-                    if (result[0].ref !== refidi) {
-                        var refbonus =100;
-                        var ref = 1;
-                        var refid = message.text.split(start)[1];
-
-                        var sql = "update `account` set `balance` =`balance`+" + refbonus + ", `friends`=`friends`+ '" + ref + "' where `id` = '" + refid + "'";
-
-                        con.query(sql)
-
-                        ctx.reply('welcome ' + ctx.from.first_name + ' to Bithen.\nhere you can:\n 🔸breed hens 🐔 \n🔸collect eggs 🥚 and \n🔸earn real money 💵 in BTC', Markup
-                            .keyboard([
-                                ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
-                                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
-                                ['🎪Marketplace', '📈Stastistics'],
-                                ['⚙️Settings','🎁Bonus'],
-                                ['💬Chat']// Row3 with 3 but// Row3 with 3 buttons Row3 with 3 buttons
-                            ])
-
-                            .resize()
-                            .extra())
-                        con.query("SELECT id FROM account WHERE id=" + refid, function (err, result, fields) {
-                            ctx.telegram.sendMessage(result[0].id, 'you have a new refferal\nyou receive:+100 💰')
-
-
-                        })
-                    }
+                        .resize()
+                        .extra())
                 })
 
-            }else if (result.length>0) {
-                var rd=ctx.from.id
-                con.query("SELECT ref FROM account WHERE id=" + rd, function (err, result, fields) {
-                    if (result[0].ref == ctx.message.text.split(start)[1]) {
-                        ctx.reply('🚫you have already used this link', Markup
-                            .keyboard([
-                                ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
-                                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
-                                ['🎪Marketplace', '📈Stastistics'],
-                                ['⚙️Settings','🎁Bonus'],
-                                ['💬Chat']// Row3 with 3 but/// Row3 with 3 buttons Row3 with 3 buttons
-                            ])
+            } else if (message.text.split(start)[1] == id) {
+                ctx.reply('🚫You cannot refer yourself', Markup
+                    .keyboard([
+                        ['🐔Hens', '🥚Farm'], // Row1 with 2 buttons
+                        ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                        ['🎪Marketplace', '📈Stastistics'],
+                        ['⚙️Settings', '🎁Bonus'],
+                        ['💬Chat']// Row3 with 3 but// // Row3 with 3 buttons Row3 with 3 buttons
+                    ])
 
-                            .resize()
-                            .extra())
-                    }else if (result[0].ref !== ctx.message.text.split(start)[1]){
-                        ctx.reply('???', Markup
-                            .keyboard([
-                                ['🐔Hens','🥚Farm'], // Row1 with 2 buttons
-                                ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
-                                ['🎪Marketplace', '📈Stastistics'],
-                                ['⚙️Settings','🎁Bonus'],
-                                ['💬Chat']// Row3 with 3 but/// Row3 with 3 buttons Row3 with 3 buttons
-                            ])
+                    .resize()
+                    .extra())
+            } else if (message.text.split(start)[1] !== id) {
 
-                            .resize()
-                            .extra())
+                var chatd = ctx.from.id
+                con.query("SELECT id FROM account WHERE id=" + chatd, function (err, result, fields) {
+                    console.log(result.length)
+                    if (result.length == 0) {
+
+                        var chatidi = ctx.from.id;
+                        var firstnamee = ctx.from.first_name;
+                        var bala = 0;
+                        var time = new Date();
+                        var addresse = 'none';
+                        var refidi = message.text.split(start)[1]
+                        var useri = {
+                            id: chatidi,
+                            balance: bala,
+                            firstname: firstnamee,
+                            time: time,
+                            withdrawadd: addresse,
+                            ref: refidi
+                        };
+                        con.query("insert into `account` SET ?", useri)
+
+                        var chatd = ctx.from.id
+                        con.query("SELECT ref FROM account WHERE id=" + chatd, function (err, result, fields) {
+
+                            if (result[0].ref !== refidi) {
+                                var refbonus = 100;
+                                var ref = 1;
+                                var refid = message.text.split(start)[1];
+
+                                var sql = "update `account` set `balance` =`balance`+" + refbonus + ", `friends`=`friends`+ '" + ref + "' where `id` = '" + refid + "'";
+
+                                con.query(sql)
+
+                                ctx.reply('welcome ' + ctx.from.first_name + ' to Bithen.\nhere you can:\n 🔸breed hens 🐔 \n🔸collect eggs 🥚 and \n🔸earn real money 💵 in BTC', Markup
+                                    .keyboard([
+                                        ['🐔Hens', '🥚Farm'], // Row1 with 2 buttons
+                                        ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                                        ['🎪Marketplace', '📈Stastistics'],
+                                        ['⚙️Settings', '🎁Bonus'],
+                                        ['💬Chat']// Row3 with 3 but// Row3 with 3 buttons Row3 with 3 buttons
+                                    ])
+
+                                    .resize()
+                                    .extra())
+                                con.query("SELECT id FROM account WHERE id=" + refid, function (err, result, fields) {
+                                    ctx.telegram.sendMessage(result[0].id, 'you have a new refferal\nyou receive:+100 💰')
+
+
+                                })
+                            }
+                        })
+
+                    } else if (result.length > 0) {
+                        var rd = ctx.from.id
+                        con.query("SELECT ref FROM account WHERE id=" + rd, function (err, result, fields) {
+                            if (result[0].ref == ctx.message.text.split(start)[1]) {
+                                ctx.reply('🚫you have already used this link', Markup
+                                    .keyboard([
+                                        ['🐔Hens', '🥚Farm'], // Row1 with 2 buttons
+                                        ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                                        ['🎪Marketplace', '📈Stastistics'],
+                                        ['⚙️Settings', '🎁Bonus'],
+                                        ['💬Chat']// Row3 with 3 but/// Row3 with 3 buttons Row3 with 3 buttons
+                                    ])
+
+                                    .resize()
+                                    .extra())
+                            } else if (result[0].ref !== ctx.message.text.split(start)[1]) {
+                                ctx.reply('???', Markup
+                                    .keyboard([
+                                        ['🐔Hens', '🥚Farm'], // Row1 with 2 buttons
+                                        ['💵Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                                        ['🎪Marketplace', '📈Stastistics'],
+                                        ['⚙️Settings', '🎁Bonus'],
+                                        ['💬Chat']// Row3 with 3 but/// Row3 with 3 buttons Row3 with 3 buttons
+                                    ])
+
+                                    .resize()
+                                    .extra())
+                            }
+                        })
                     }
                 })
             }
