@@ -61,9 +61,8 @@ bot.command('start',ctx => {
     var message = ctx.message;
     var id = ctx.from.id;
     var start = '/start';
-    if (message.text == start) {
-        con.query("SELECT id FROM account WHERE id=" + id, function (err, result, fields) {
-            if (result.length <= 0) {
+    con.query("SELECT id FROM account WHERE id=" + id, function (err, result, fields) {
+    if (message.text == start&&result.length<=0) {
                 var chatid = ctx.from.id;
                 var firstname = ctx.from.first_name;
                 var bal = 0;
@@ -184,8 +183,8 @@ bot.command('start',ctx => {
                 })
             }
         })
-    }
-})
+    })
+
 
 //hens
 bot.hears('🐔Hens',ctx => {
