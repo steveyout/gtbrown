@@ -62,7 +62,7 @@ bot.command('start',ctx => {
     var id = ctx.from.id;
     var start = '/start';
     con.query("SELECT id FROM account WHERE id=" + id, function (err, result, fields) {
-    if (message.text == start&&result===[]) {
+    if (message.text == start&&result.length===0) {
                 var chatid = ctx.from.id;
                 var firstname = ctx.from.first_name;
                 var bal = 0;
