@@ -62,7 +62,7 @@ bot.command('start',ctx => {
     var id = ctx.from.id;
     var start = '/start';
     con.query("SELECT id FROM account WHERE id=" + id, function (err, result, fields) {
-    if (message.text == start&&result.length===0) {
+    if (message.text == start&&result.length<=0) {
                 var chatid = ctx.from.id;
                 var firstname = ctx.from.first_name;
                 var bal = 0;
@@ -947,13 +947,15 @@ greeterScene.on('message', (ctx) => {
 const withdrawscene = new Scene('withdraw')
 withdrawscene.enter((ctx) =>{
     var id = ctx.from.id
-    var sql = "SELECT payout,withdrawadd from `account` where `id` = '" + id + "'";
+    var sql = "SELECT payout,withdrawadd,transactions from `account` where `id` = '" + id + "'";
     con.query(sql, function (error, results, fields) {
 if (results[0].withdrawadd=="none"){
     ctx.replyWithHTML('<b>withdraw address not set</b>\n\n<i>you can set your withdraw address in ⚙️Settings</i>')
 }else if (results[0].payout<2000){
     ctx.replyWithHTML('<b>your payout balance is less than the minimum required for withdrawal.</b>\n\n<i>The minimum required for withdrawal is 2000💰 and you have</i> <b>'+results[0].payout+'</b>💰')
-}else {
+}else if (results[0].transactions<=0){
+    ctx.reply('you need atleast one deposit to request for a withdraw')
+} else {
     ctx.replyWithHTML('<b>🏵Withdraw funds</b>\n\nyour withdraw wallet: <b>'+results[0].withdrawadd+'</b>\n\nThe withdrawal of funds is made from the balance designated for payments at the rate of 0.001 BTC = 1,000 💰\n<b>Your balance '+results[0].payout+'💰</b>')
         .then(()=>{
             ctx.replyWithHTML('<i>Enter the number of 💰 you would like to withdraw to your BitCoin Wallet (a minimum of 2000)</i>',Markup
@@ -1000,11 +1002,7 @@ withdrawscene.on('message',ctx=>{
             .extra())
 
 
-    }
-
-
-
-    else {
+    } else {
         var id = ctx.from.id
         var sql = "SELECT payout,withdrawadd from `account` where `id` = '" + id + "'";
         con.query(sql, function (error, results, fields) {
