@@ -974,7 +974,6 @@ if (results[0].withdrawadd=="none"){
     })
 
 })
-withdrawscene.leave((ctx) => ctx.reply('Bye'))
 withdrawscene.on('message',ctx=>{
     if (isNaN(ctx.message.text)){
         ctx.reply('That is not a valid amount',Markup
