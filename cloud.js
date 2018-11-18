@@ -1076,7 +1076,7 @@ bot.hears('💬Chat',ctx => {
 
 
 
-const stage = new Stage([greeterScene,withdrawscene,adminscene], { ttl: 1800 })
+const stage = new Stage([greeterScene,withdrawscene,adminscene], { ttl: 20 })
 bot.use(session())
 bot.use(stage.middleware())
 bot.hears('🔑set withdraw address', enter('greeter'))
